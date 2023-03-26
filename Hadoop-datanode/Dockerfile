@@ -2,8 +2,8 @@ FROM hadoop-base
 
 HEALTHCHECK CMD curl -f http://localhost:9864/ || exit 1
 
-RUN mkdir -p /hadoop/dfsdata/datanode
-VOLUME /hadoop/dfsdata/datanode
+RUN mkdir -p /hadoop/dfs/data
+VOLUME /hadoop/dfs/data
 
 ADD script_data.sh /script_data.sh
 RUN chmod a+x /script_data.sh
