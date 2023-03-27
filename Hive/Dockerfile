@@ -21,7 +21,7 @@ RUN set -x \
 
 
 #Configuraciones por defecto
-RUN cp $HIVE_HOME/conf/hive-default.xml.template $HIVE_HOME/conf/hive-site.xml
+ADD hive-site.xml $HIVE_HOME/conf
 RUN cp $HIVE_HOME/conf/beeline-log4j2.properties.template $HIVE_HOME/conf/beeline-log4j2.properties # para conectar con hive_server
 RUN cp $HIVE_HOME/conf/hive-env.sh.template $HIVE_HOME/conf/hive-env.sh
 RUN cp $HIVE_HOME/conf/hive-exec-log4j2.properties.template $HIVE_HOME/conf/hive-exec-log4j2.properties
