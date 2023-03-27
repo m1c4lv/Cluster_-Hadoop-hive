@@ -1,7 +1,5 @@
 FROM hadoop-base
 
-HEALTHCHECK CMD curl -f http://localhost:9864/ || exit 1
-
 RUN mkdir -p /hadoop/dfs/data
 VOLUME /hadoop/dfs/data
 
