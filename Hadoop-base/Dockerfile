@@ -1,7 +1,7 @@
 FROM debian:9
 
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \  #Sin iteracción
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \ 
       openjdk-8-jdk \
       net-tools \
       curl \
@@ -31,20 +31,23 @@ RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
 
 RUN mkdir /hadoop-data
 
+## HADOOP env variables
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
-ENV HADOOP_INSTALL=$HADOOP_HOME
-ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
 ENV HADOOP_COMMON_HOME=$HADOOP_HOME
 ENV HADOOP_HDFS_HOME=$HADOOP_HOME
-ENV YARN_HOME=$HADOOP_HOME
-ENV HADOOP_CONF_DIR=/etc/hadoop
+ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
+ENV HADOOP_YARN_HOME=$HADOOP_HOME
+ENV HADOOP_OPTS=-Djava.library.path=$HADOOP_HOME/lib/native
 ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
-ENV USER=root
 ENV PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
-ENV HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/nativ"
+ENV HDFS_NAMENODE_USER=root
+ENV HDFS_DATANODE_USER=root
+ENV HDFS_SECONDARYNAMENODE_USER=root
+ENV YARN_RESOURCEMANAGER_USER=root
+ENV YARN_NODEMANAGER_USER=root
 
-ADD script.sh /script2.sh
+ADD script.sh /script.sh
 
-RUN chmod a+x /script2.sh
+RUN chmod a+x /script.sh
 
-ENTRYPOINT ["/script2.sh"]
+ENTRYPOINT ["/script.sh"]

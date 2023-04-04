@@ -4,31 +4,55 @@ services:
   namenode:
     image: hadoop-name
     volumes:
-      - namenode:/hadoop/dfs/name
-    depends_on:
-      - datanode
-      - hive-server
-      - hive-metastore
-      - hive-metastore-postgresql
+      - namenode:/opt/volume/namenode
     ports:
       - "50070:50070"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   datanode:
     image: hadoop-data
+    depends_on:
+      - namenode
     volumes:
-      - datanode:/hadoop/dfs/data
+      - datanode:/opt/volume/datanode
     ports:
       - "50075:50075"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  resourcemanager:
+    image: hadoop-resource
+    depends_on:
+      - namenode
+    ports:
+      - "8088:8088"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  nodemanager:
+    image: hadoop-node
+    depends_on:
+      - namenode
+    ports:
+      - "8042:8042"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"    
   hive-server:
     image: hadoop-hive
+    depends_on:
+      - namenode
     ports:
       - "10000:10000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   hive-metastore:
     image: hadoop-hive
-    command: /opt/hive/bin/hive --service metastore
+    depends_on:
+      - hive-server
+    command:
+      - /opt/hive/bin/schematool -dbType derby -initSchema
     ports:
       - "9083:9083"
-  hive-metastore-postgresql:
-    image: hadoop-hive
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   namenode:

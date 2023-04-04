@@ -1,8 +1,7 @@
 FROM hadoop-base
 
-RUN mkdir -p /opt/volume/namenode
-RUN chmod 777 /opt/volume/namenode
-VOLUME /opt/volume/namenode
+RUN mkdir -p /hadoop/dfs/name
+VOLUME /hadoop/dfs/name
 
 ADD script_name.sh /script_name.sh
 RUN chmod a+x /script_name.sh
