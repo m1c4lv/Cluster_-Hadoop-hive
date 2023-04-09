@@ -46,8 +46,10 @@ ENV HDFS_SECONDARYNAMENODE_USER=root
 ENV YARN_RESOURCEMANAGER_USER=root
 ENV YARN_NODEMANAGER_USER=root
 
-ADD script.sh /script.sh
+ADD conf/* /etc/hadoop/
 
-RUN chmod a+x /script.sh
+#ADD script.sh /script.sh
 
-ENTRYPOINT ["/script.sh"]
+#RUN chmod a+x /script.sh
+
+#ENTRYPOINT ["/script.sh"]

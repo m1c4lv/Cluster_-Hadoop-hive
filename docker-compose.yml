@@ -2,58 +2,66 @@ version: "2"
 
 services:
   namenode:
-    image: hadoop-name
+    image: hadoop-namenode
+    container_name: namenode
+    restart: always
     volumes:
       - namenode:/opt/volume/namenode
     ports:
-      - "50070:50070"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "9870:9870"  
   datanode:
-    image: hadoop-data
+    image: hadoop-datanode
+    container_name: datanode
+    restart: always
     depends_on:
       - namenode
     volumes:
       - datanode:/opt/volume/datanode
-    ports:
-      - "50075:50075"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   resourcemanager:
-    image: hadoop-resource
+    image: hadoop-resourcemanager
+    container_name: resourcemanager
+    restart: always
     depends_on:
       - namenode
     ports:
       - "8088:8088"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   nodemanager:
-    image: hadoop-node
+    image: hadoop-nodemanager
+    container_name: nodemanager
+    restart: always
     depends_on:
       - namenode
     ports:
       - "8042:8042"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"    
+  historyserver:
+    image: hadoop-historyserver
+    container_name: historyserver
+    restart: always
+    volumes:
+      - historyserver:/hadoop/yarn/timeline
+    depends_on:
+      - namenode    
   hive-server:
     image: hadoop-hive
+    container_name: hiveserver
+    restart: always
     depends_on:
       - namenode
     ports:
       - "10000:10000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   hive-metastore:
     image: hadoop-hive
+    container_name: metastore
+    restart: always
     depends_on:
       - hive-server
     command:
       - /opt/hive/bin/schematool -dbType derby -initSchema
+#      - /opt/hive/bin/hive --service metastore
     ports:
       - "9083:9083"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
 volumes:
   namenode:
   datanode:
+  historyserver:
