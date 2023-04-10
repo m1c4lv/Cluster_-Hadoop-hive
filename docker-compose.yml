@@ -49,19 +49,20 @@ services:
       - namenode
     ports:
       - "10000:10000"
-  hive-metastore:
-    image: hadoop-hive
-    container_name: metastore
-    restart: always
-    depends_on:
-      - hive-server
+  mysql-server:
+    image: mysql:5.7-debian
     command:
-      - /opt/hive/bin/schematool -dbType derby -initSchema
-#      - /opt/hive/bin/hive --service metastore
+      --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - "9083:9083"
+      - "33306:3306"
+    volumes:
+      - volumen_mysql:/var/lib/mysql
 
 volumes:
   namenode:
   datanode:
   historyserver:
+  volumen_mysql:
