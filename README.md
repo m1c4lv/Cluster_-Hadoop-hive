@@ -38,7 +38,7 @@ Podemos acceder a cada contenedor con su respectivo nombre:
 
 ```bash
 docker-compose exec hiveserver bin/bash
- 
+ ```
 
 ### Ejecutar una prueba de MapReduce en Hadoop:
 
