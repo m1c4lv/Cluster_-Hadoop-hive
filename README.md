@@ -2,7 +2,7 @@
 
 Este cluster de Hadoop está configurado con un modo de funcionamiento pseudo-distribuido, es decir, en cada uno de los componenetes del cluster se ejecuta su propio contenedor Docker.
 
-##Configuración para Docker-compose:
+## Configuración para Docker-compose:
 
 Primero construimos las imagenes de los contenedores:
 
@@ -40,7 +40,7 @@ Podemos acceder a cada contenedor con su respectivo nombre:
 docker-compose exec hiveserver bin/bash
  
 
-###Ejecutar una prueba de MapReduce en Hadoop:
+### Ejecutar una prueba de MapReduce en Hadoop:
 
 ```bash
 docker cp hadoop-mapreduce-examples-3.3.5.jar namenode:/hadoop-mapreduce-examples-3.3.5.jar
@@ -50,7 +50,7 @@ docker exec -ti namenode /bin/bash
 $HADOOP_HOME/bin/yarn jar hadoop-mapreduce-examples-3.3.5.jar pi 16 1000
 ```
 
-###Ejecutar prueba en Hive:
+### Ejecutar prueba en Hive:
 
 ```bash
 docker exec -ti hiveserver bash
@@ -66,7 +66,7 @@ create table ejemplo(edad int, nombre string);
 show tables;
 ```
 
-##Configuración para kubernetes:
+## Configuración para kubernetes:
 
 Primero construimos los pods, aquellos servicios que necesitan persistencia de datos, se lanzan como statefulsets, los que no necesitan persistencia
 se lanzan como deployments. Cada servicio tiene su service que le conecta con los demás servicios de Hadoop.
@@ -77,7 +77,7 @@ Podemos acceder a cada pod con su respectivo nombre:
 kubectl exec --stdin --tty hadoop-namenode-0 -- /bin/bash
 ```
 
-###Ejecutar una prueba de MapReduce en Hadoop:
+### Ejecutar una prueba de MapReduce en Hadoop:
 
 ```bash
 kubectl cp hadoop-mapreduce-examples-3.3.5.jar hadoop-namenode-0:/hadoop-mapreduce-examples-3.3.5.jar
@@ -87,7 +87,7 @@ kubectl exec --stdin --tty hadoop-namenode-0 -- /bin/bash
 $HADOOP_HOME/bin/yarn jar hadoop-mapreduce-examples-3.3.5.jar pi 16 1000
 ```
 
-###Ejecutar prueba en Hive:
+### Ejecutar prueba en Hive:
 
 El id de hive-server cambia cada vez que se crea el pod, hay que consultarlo con:
 
