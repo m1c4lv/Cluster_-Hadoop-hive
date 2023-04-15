@@ -116,3 +116,21 @@ create table ejemplo(edad int, nombre string);
 
 show tables;
 ```
+
+### Acceder a información del Namenode:
+
+Primero exponemos el servicio al exterior:
+
+```bash
+kubectl port-forward hadoop-namenode-0 9870
+```
+
+Ahora en el navegador con la direccion: http://localhost:9870/dfshealth.html#tab-overview podemos acceder a la información del namenode.
+Como podemos observar están todos los servicios conectados en la versión de Hadoop 3.3.5. 
+Si accedemos a la pestaña:Datanodes vemos que tiene un sercicio de Datanode, o lo que es lo mismo, tenemos 1 nodo worker. Vamos a escalar estos servicios, para ello escribimos en otra terminal:
+
+```bash
+kubectl scale sts hadoop-datanode --replicas=3
+```
+
+Si actualizamos el navegador podemos observar como ahora tenemos tres servicios datanode, cada uno con su almacenamiento y su dirección ip.
