@@ -71,6 +71,12 @@ show tables;
 Primero construimos los pods, aquellos servicios que necesitan persistencia de datos, se lanzan como statefulsets, los que no necesitan persistencia
 se lanzan como deployments. Cada servicio tiene su service que le conecta con los demás servicios de Hadoop.
 
+En la carpeta kubernetes-v1 ejecutamos el siguiente comando:
+
+```bash
+kubectl apply -f .
+```
+
 Podemos acceder a cada pod con su respectivo nombre:
 
 ```bash
