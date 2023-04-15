@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode
+  labels:
+    app: datanode
+spec:
+  ports:
+  - port: 9864
+    name: webdata
+  clusterIP: None
+  selector:
+    app: datanode
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-datanode
+spec:
+  selector:
+    matchLabels:
+      app: datanode # has to match .spec.template.metadata.labels
+  serviceName: "datanode"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: datanode # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: datanode
+        image: m1c4lv/hadoop-datanode:v1
+        ports:
+        - containerPort: 9864
+          name: webdata
+        volumeMounts:
+        - name: datanode
+          mountPath: /opt/volume/datanode
+  volumeClaimTemplates:
+  - metadata:
+      name: datanode
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi

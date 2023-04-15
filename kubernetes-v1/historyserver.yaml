@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: historyserver
+  labels:
+    app: historyserver
+spec:
+  ports:
+  - port: 8188
+    name: webhistory
+  clusterIP: None
+  selector:
+    app: historyserver
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-historyserver
+spec:
+  selector:
+    matchLabels:
+      app: historyserver # has to match .spec.template.metadata.labels
+  serviceName: "historyserver"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: historyserver # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: historyserver
+        image: m1c4lv/hadoop-historyserver:v1
+        ports:
+        - containerPort: 8188
+          name: webhistory
+        volumeMounts:
+        - name: historyserver
+          mountPath: /hadoop/yarn/timeline
+  volumeClaimTemplates:
+  - metadata:
+      name: historyserver
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi

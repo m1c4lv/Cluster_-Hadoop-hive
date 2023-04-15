@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: namenode
+  labels:
+    app: namenode
+spec:
+  ports:
+  - port: 9870
+    name: web
+  clusterIP: None
+  selector:
+    app: namenode
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-namenode
+spec:
+  selector:
+    matchLabels:
+      app: namenode # has to match .spec.template.metadata.labels
+  serviceName: "namenode"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: namenode # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: namenode
+        image: m1c4lv/hadoop-namenode:v1
+        ports:
+        - containerPort: 9870
+          name: web
+        volumeMounts:
+        - name: namenode
+          mountPath: /opt/volume/namenode
+  volumeClaimTemplates:
+  - metadata:
+      name: namenode
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi
