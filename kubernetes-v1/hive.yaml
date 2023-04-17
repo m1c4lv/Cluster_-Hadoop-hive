@@ -1,16 +1,13 @@
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
-  name: hive
-  labels:
-    app: hive
+  name: hive-service
 spec:
-  ports:
-  - port: 10000
-    name: webhive
-  clusterIP: None
   selector:
-    app: hive
+    app: hive-server
+  ports:
+    - port: 10000
+  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment
