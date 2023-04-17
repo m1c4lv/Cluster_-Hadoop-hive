@@ -1,16 +1,13 @@
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: namenode
-  labels:
-    app: namenode
 spec:
-  ports:
-  - port: 9870
-    name: web
-  clusterIP: None
   selector:
     app: namenode
+  ports:
+    - port: 9870
+  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -31,10 +28,10 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: namenode
-        image: m1c4lv/hadoop-namenode:v1
+        image: m1c4lv/hadoop-namenode:v3
         ports:
         - containerPort: 9870
-          name: web
+          name: namenode
         volumeMounts:
         - name: namenode
           mountPath: /opt/volume/namenode
