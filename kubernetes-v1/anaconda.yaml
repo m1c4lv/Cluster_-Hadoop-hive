@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: anaconda-service
+spec:
+  selector:
+    app: anaconda
+  ports:
+    - port: 8888
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anaconda
+  labels:
+    app: anaconda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anaconda
+  template:
+    metadata:
+      labels:
+        app: anaconda
+    spec:
+      containers:
+      - name: anaconda
+        image: continuumio/anaconda3
+        command: ["sh", "-c", conda install jupyter -y --quiet && mkdir -p /opt/notebooks && jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser --allow-root]
+        ports:
+        - containerPort: 8888

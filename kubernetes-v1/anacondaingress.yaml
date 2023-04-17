@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: anaconda-ingress
+spec:
+  rules:
+    - host: "anaconda.127.0.0.1.nip.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: anaconda-service
+                port:
+                  number: 8888

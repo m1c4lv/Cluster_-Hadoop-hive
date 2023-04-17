@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: namenode-ingress
+spec:
+  rules:
+    - host: "namenode.127.0.0.1.nip.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: namenode
+                port:
+                  number: 9870
