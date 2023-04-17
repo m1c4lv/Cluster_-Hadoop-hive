@@ -68,6 +68,13 @@ show tables;
 
 ## Configuración para kubernetes:
 
+Este Cluster de Hadoop se ha construido sobre minikube, por tanto para hacerlo funcionar hay que tener instalado minikube, una vez instalado hacemos:
+
+```bash
+minikube start
+minikube addons enable ingress
+```
+
 Primero construimos los pods, aquellos servicios que necesitan persistencia de datos, se lanzan como statefulsets, los que no necesitan persistencia
 se lanzan como deployments. Cada servicio tiene su service que le conecta con los demás servicios de Hadoop.
 
@@ -119,13 +126,13 @@ show tables;
 
 ### Acceder a información del Namenode:
 
-Primero exponemos el servicio al exterior:
+Primero exponemos el ingress al exterior:
 
 ```bash
-kubectl port-forward hadoop-namenode-0 9870
+minikube tunnel
 ```
 
-Ahora en el navegador con la direccion: http://localhost:9870/dfshealth.html#tab-overview podemos acceder a la información del namenode.
+Ahora en el navegador con la direccion: http://namenode.127.0.0.1.nip.io/ podemos acceder a la información del namenode.
 Como podemos observar están todos los servicios conectados en la versión de Hadoop 3.3.5. 
 Si accedemos a la pestaña:Datanodes vemos que tiene un sercicio de Datanode, o lo que es lo mismo, tenemos 1 nodo worker. Vamos a escalar estos servicios, para ello escribimos en otra terminal:
 
@@ -134,3 +141,11 @@ kubectl scale sts hadoop-datanode --replicas=3
 ```
 
 Si actualizamos el navegador podemos observar como ahora tenemos tres servicios datanode, cada uno con su almacenamiento y su dirección ip.
+
+En el navegador podemos acceder a JupyterNotebooks con la dirección: http://anaconda.127.0.0.1.nip.io/ nos pedirá el token, el cual lo podemos obtener accediendo a los logs del pod anaconda.
+
+```bash
+kubectl logs anaconda-idpod
+```
+
+Siendo id pod el id que le haya dado kubernetes al crearlo.
