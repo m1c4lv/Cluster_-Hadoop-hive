@@ -142,7 +142,9 @@ kubectl scale sts hadoop-datanode --replicas=3
 
 Si actualizamos el navegador podemos observar como ahora tenemos tres servicios datanode, cada uno con su almacenamiento y su dirección ip.
 
-En el navegador podemos acceder a JupyterNotebooks con la dirección: http://anaconda.127.0.0.1.nip.io/ nos pedirá el token, el cual lo podemos obtener accediendo a los logs del pod anaconda.
+En el navegador podemos acceder al Yarn (servicio ResourceManager) con la dirección: http://resourcemanager.127.0.0.1.nip.io/
+
+También podemos acceder a JupyterNotebooks con la dirección: http://anaconda.127.0.0.1.nip.io/ nos pedirá el token, el cual lo podemos obtener accediendo a los logs del pod anaconda.
 
 ```bash
 kubectl logs anaconda-idpod
