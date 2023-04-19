@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: resourcemanager-ingress
+spec:
+  rules:
+    - host: "resourcemanager.127.0.0.1.nip.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: resourcemanager
+                port:
+                  number: 8088
