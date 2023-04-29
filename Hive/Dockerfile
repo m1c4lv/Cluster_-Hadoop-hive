@@ -10,16 +10,15 @@ ENV HIVE_URL https://downloads.apache.org/hive/hive-$HIVE_VERSION/apache-hive-$H
 WORKDIR /opt
 
 
-#Instala Hive y SQL-server
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \ 
-      libmysql-java \
-    && rm -rf /var/lib/apt/lists/*
-
+#Instala Hive y SQL-server-conector
+RUN curl -fSL "https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-j_8.0.32-1debian11_all.deb" -o ./conector.deb
+RUN dpkg -i ./conector.deb
+RUN rm ./conector.deb
 RUN set -x \
     && curl -fSL "$HIVE_URL" -o /tmp/hive.tar.gz \
     && tar -xzvf /tmp/hive.tar.gz -C /opt \
     && mv apache-hive-$HIVE_VERSION-bin hive \
-    && ln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar \
+    && ln -s /usr/share/java/mysql-connector-j-8.0.32.jar $HIVE_HOME/lib/mysql-connector-j-8.0.32.jar \
     && rm /tmp/hive.tar.gz*
 
 
