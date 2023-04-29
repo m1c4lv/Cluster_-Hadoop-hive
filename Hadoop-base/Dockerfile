@@ -1,15 +1,23 @@
-FROM debian:9
+FROM debian:11
 
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \ 
-      openjdk-8-jdk \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       net-tools \
       curl \
       netcat \
       gnupg \
+      ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-      
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+## Instala java8
+RUN set -x \
+    && curl -fSL "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u372-b07/OpenJDK8U-jdk_x64_linux_hotspot_8u372b07.tar.gz" -o /tmp/jdk8.tar.gz \
+    && tar -xvf /tmp/jdk8.tar.gz -C /opt/ \
+    && rm /tmp/jdk8.tar.gz
+
+ENV JAVA_HOME=/opt/jdk8u372-b07/
+ENV PATH=$PATH:$JAVA_HOME/
+
 
 RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
 
@@ -47,9 +55,3 @@ ENV YARN_RESOURCEMANAGER_USER=root
 ENV YARN_NODEMANAGER_USER=root
 
 ADD conf/* /etc/hadoop/
-
-#ADD script.sh /script.sh
-
-#RUN chmod a+x /script.sh
-
-#ENTRYPOINT ["/script.sh"]
