@@ -21,31 +21,11 @@ RUN ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo "conda activate base" >> ~/.bashrc
 
 # Actualiza conda e intala paquetes
-RUN conda update conda
-RUN conda install cython
-RUN conda install ipython
-RUN conda install ipython_genutils
-RUN conda install qtconsole
-RUN conda install libpng
-RUN conda install notebook
-RUN conda install numpy
-RUN conda install pandas
-RUN conda install scipy
-RUN conda install bokeh
-RUN conda install nltk
-RUN conda install pip
-RUN conda install scikit-learn
-RUN conda install scikit-image
-RUN conda install setuptools
-RUN conda install sympy
-RUN conda install wheel
-RUN conda install unicodecsv
-RUN conda install ujson
-RUN conda install zlib
-RUN conda install jupyter
-RUN conda update --all
-RUN conda clean -t
-RUN conda clean -p
+RUN conda update conda && \
+    conda install cython ipython ipython_genutils qtconsole libpng notebook numpy pandas scipy bokeh nltk pip scikit-learn scikit-image setuptools sympy wheel unicodecsv ujson zlibjupyter && \ 
+    conda update --all && \
+    conda clean -t && \
+    conda clean -p
 
 # Variables de entorno para ipython con PySpark
 ENV PYSPARK_PYTHON /opt/anaconda/bin/python
