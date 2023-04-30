@@ -22,7 +22,7 @@ RUN ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 
 # Actualiza conda e intala paquetes
 RUN conda update conda && \
-    conda install cython ipython ipython_genutils qtconsole libpng notebook numpy pandas scipy bokeh nltk pip scikit-learn scikit-image setuptools sympy wheel unicodecsv ujson zlibjupyter && \ 
+    conda install cython ipython ipython_genutils qtconsole libpng notebook numpy pandas scipy bokeh nltk pip scikit-learn scikit-image setuptools sympy wheel unicodecsv ujson zlib jupyter && \ 
     conda update --all && \
     conda clean -t && \
     conda clean -p
