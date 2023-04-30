@@ -2,6 +2,10 @@ FROM hadoop-hive
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV CONDA_URL https://repo.anaconda.com/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh
+ENV JUPITER_URL https://anaconda.org/conda-forge/jupyter/1.0.0/download/linux-64/jupyter-1.0.0-py35_0.tar.bz2
+
+RUN mkdir -p /opt/notebooks
+VOLUME /opt/notebooks
 
 # Instala linux Development tools
 RUN apt-get update && apt-get install build-essential -y
@@ -35,7 +39,6 @@ RUN conda install notebook
 RUN conda install numpy
 RUN conda install pandas
 RUN conda install scipy
-RUN conda install jupyter
 RUN conda install bokeh
 RUN conda install nltk
 RUN conda install pip
@@ -48,6 +51,9 @@ RUN conda install unicodecsv
 RUN conda install ujson
 RUN conda install zlib
 RUN conda update --all
+RUN curl -fSL "$JUPITER_URL" -o /tmp/jupyter-1.0.0-py35_0.tar.bz2
+RUN conda install /tmp/jupyter-1.0.0-py35_0.tar.bz2
+RUN rm /tmp/jupyter-1.0.0-py35_0.tar.bz2
 RUN conda clean -t
 RUN conda clean -p
 
@@ -58,6 +64,4 @@ ENV IPYTHON_OPTS "notebook --port 8889 --notebook-dir='/media/notebooks' --ip='*
 
 RUN pip install mrjob
 
-CMD ["jupyter", "notebook", "--port=8889", "--notebook-dir='/media/notebooks'", "--no-browser", "--ip='*'", "&"]
-
-EXPOSE 8889
+EXPOSE 8888
