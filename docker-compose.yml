@@ -60,9 +60,20 @@ services:
       - "33306:3306"
     volumes:
       - volumen_mysql:/var/lib/mysql
+  jupyter:
+    image: hadoop-jupyter
+    container_name: jupyter
+    command: /opt/anaconda/bin/jupyter notebook --port=8889 --notebook-dir=/opt/notebooks --no-browser --allow-root
+    restart: always
+    volumes:
+      - jupyter:/opt/notebooks
+    ports:
+      - "8889:8889"
+
 
 volumes:
   namenode:
   datanode:
   historyserver:
   volumen_mysql:
+  jupyter:
