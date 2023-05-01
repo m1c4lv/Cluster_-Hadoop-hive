@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   namenode:
@@ -8,7 +8,7 @@ services:
     volumes:
       - namenode:/opt/volume/namenode
     ports:
-      - "9870:9870"  
+      - "9870:9870"
   datanode:
     image: hadoop-datanode
     container_name: datanode
@@ -40,10 +40,14 @@ services:
     volumes:
       - historyserver:/hadoop/yarn/timeline
     depends_on:
-      - namenode    
+      - namenode
   hive-server:
     image: hadoop-hive
     container_name: hiveserver
+    command:
+      - /usr/local/bin/script_hive.sh
+      - bash -c 'if [[ $$(schematool -dbType mysql -info | grep "*** schemaTool failed ***") ]]; then schematool -dbType mysql -initSchema; fi'
+      - hive --service
     restart: always
     depends_on:
       - namenode
@@ -54,26 +58,25 @@ services:
     command:
       --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - mysql-server:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql
     ports:
       - "33306:3306"
-    volumes:
-      - volumen_mysql:/var/lib/mysql
   jupyter:
     image: hadoop-jupyter
     container_name: jupyter
-    command: /opt/anaconda/bin/jupyter notebook --port=8889 --notebook-dir=/opt/notebooks --no-browser --allow-root
+    command: /opt/anaconda/bin/jupyter notebook --ip='*' --port=8888 --notebook-dir=/opt/notebooks --no-browser --allow-root
     restart: always
     volumes:
       - jupyter:/opt/notebooks
     ports:
-      - "8889:8889"
-
+      - "8888:8888"
 
 volumes:
   namenode:
   datanode:
   historyserver:
-  volumen_mysql:
+  mysql-server:
   jupyter:
