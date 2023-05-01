@@ -55,8 +55,6 @@ $HADOOP_HOME/bin/yarn jar hadoop-mapreduce-examples-3.3.5.jar pi 16 1000
 ```bash
 docker exec -ti hiveserver bash
 
-/opt/hive/bin/schematool -initSchema -dbType mysql
-
 /opt/hive/bin/hive
 
 show tables;
