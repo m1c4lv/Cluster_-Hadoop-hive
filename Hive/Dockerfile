@@ -29,6 +29,9 @@ ADD conf/* $HIVE_HOME/conf
 COPY script_hive.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/script_hive.sh
 
+COPY script_schematool.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/script_schematool.sh
+
 EXPOSE 10000
 EXPOSE 10002
 
