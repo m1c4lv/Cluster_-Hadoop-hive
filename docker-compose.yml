@@ -44,10 +44,7 @@ services:
   hive-server:
     image: hadoop-hive
     container_name: hiveserver
-    command:
-      - /usr/local/bin/script_hive.sh
-      - bash -c 'if [[ $$(schematool -dbType mysql -info | grep "*** schemaTool failed ***") ]]; then schematool -dbType mysql -initSchema; fi'
-      - hive --service
+    command: /bin/sh -c '/usr/local/bin/script_schematool.sh && /usr/local/bin/script_hive.sh'
     restart: always
     depends_on:
       - namenode
