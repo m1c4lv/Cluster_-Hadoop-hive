@@ -22,11 +22,10 @@ RUN ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 
 # Actualiza conda e intala paquetes
 RUN conda update conda && \
-    conda install cython ipython ipython_genutils qtconsole libpng notebook numpy pandas scipy bokeh nltk pip scikit-learn scikit-image setuptools sympy wheel unicodecsv ujson zlib jupyter && \ 
+    conda install cython ipython ipython_genutils qtconsole libpng notebook numpy pandas scipy bokeh nltk pip scikit-learn scikit-image setuptools sympy wheel unicodecsv ujson zlib jupyter && \
     conda update --all && \
     conda clean -t && \
     conda clean -p
-
 # Variables de entorno para ipython con PySpark
 ENV PYSPARK_PYTHON /opt/anaconda/bin/python
 ENV IPYTHON 1
@@ -34,9 +33,4 @@ ENV IPYTHON_OPTS "notebook --port 8889 --notebook-dir='/media/notebooks' --ip='*
 
 RUN pip install mrjob
 
-ENV TINI_VERSION v0.16.1
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
-RUN chmod +x /usr/bin/tini
-
-ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "/bin/bash" ]
+EXPOSE 8888
