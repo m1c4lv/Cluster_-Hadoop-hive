@@ -27,6 +27,7 @@ spec:
     spec:
       containers:
       - name: resourcemanager
-        image: m1c4lv/hadoop-resourcemanager:v1
+        image: m1c4lv/hadoop-resourcemanager:debian11
+        command: ["sh", "-c", sleep 100 && $HADOOP_HOME/bin/yarn resourcemanager]
         ports:
         - containerPort: 8088
