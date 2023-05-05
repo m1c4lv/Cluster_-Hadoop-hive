@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
       - name: nodemanager
-        image: m1c4lv/hadoop-nodemanager:v1
+        image: m1c4lv/hadoop-nodemanager:debian11
         ports:
         - containerPort: 8042
