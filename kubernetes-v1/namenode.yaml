@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: namenode
-        image: m1c4lv/hadoop-namenode:v3
+        image: m1c4lv/hadoop-namenode:debian11
         ports:
         - containerPort: 9870
           name: namenode
