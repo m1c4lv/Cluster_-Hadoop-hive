@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: historyserver
-        image: m1c4lv/hadoop-historyserver:v1
+        image: m1c4lv/hadoop-historyserver:debian11
         ports:
         - containerPort: 8188
           name: historyserver
