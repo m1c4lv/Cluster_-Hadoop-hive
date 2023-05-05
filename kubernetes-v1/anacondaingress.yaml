@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: anaconda-ingress
+  name: jupyter-ingress
 spec:
   rules:
-    - host: "anaconda.127.0.0.1.nip.io"
+    - host: "jupyter.127.0.0.1.nip.io"
       http:
         paths:
           - pathType: Prefix
             path: /
             backend:
               service:
-                name: anaconda-service
+                name: jupyter
                 port:
                   number: 8888
