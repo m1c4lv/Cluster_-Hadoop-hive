@@ -1,33 +1,47 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: anaconda-service
+  name: jupyter
 spec:
   selector:
-    app: anaconda
+    app: jupyter
   ports:
     - port: 8888
   clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: anaconda
-  labels:
-    app: anaconda
+  name: jupyter
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: anaconda
+      app: jupyter # has to match .spec.template.metadata.labels
+  serviceName: "jupyter"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
   template:
     metadata:
       labels:
-        app: anaconda
+        app: jupyter # has to match .spec.selector.matchLabels
     spec:
+      terminationGracePeriodSeconds: 10
       containers:
-      - name: anaconda
-        image: continuumio/anaconda3
-        command: ["sh", "-c", conda install jupyter -y --quiet && mkdir -p /opt/notebooks && jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser --allow-root]
+      - name: jupyter
+        image: m1c4lv/hadoop-jupyter:debian11
+        command: ["sh", "-c", jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser --allow-root]
         ports:
         - containerPort: 8888
+          name: jupyter
+        volumeMounts:
+        - name: jupyter
+          mountPath: /opt/notebooks
+  volumeClaimTemplates:
+  - metadata:
+      name: jupyter
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi
