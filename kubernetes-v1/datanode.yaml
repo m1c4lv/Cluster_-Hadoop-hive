@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: datanode
-        image: m1c4lv/hadoop-datanode:v1
+        image: m1c4lv/hadoop-datanode:debian11
         ports:
         - containerPort: 9864
           name: datanode
