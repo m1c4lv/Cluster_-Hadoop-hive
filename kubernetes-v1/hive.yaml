@@ -28,6 +28,6 @@ spec:
       containers:
       - name: hive-server
         image: m1c4lv/hadoop-hive:debian11
-        command: ["sh", "-c", sleep 150 && /usr/local/bin/script_schematool.sh && /usr/local/bin/script_hive.sh]
+        command: ["sh", "-c", sleep 60 && /usr/local/bin/script_schematool.sh && /usr/local/bin/script_hive.sh]
         ports:
         - containerPort: 10000
