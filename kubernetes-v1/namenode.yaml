@@ -29,6 +29,14 @@ spec:
       containers:
       - name: namenode
         image: m1c4lv/hadoop-namenode:debian11
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 10m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 2048Mi
         ports:
         - containerPort: 9870
           name: namenode
