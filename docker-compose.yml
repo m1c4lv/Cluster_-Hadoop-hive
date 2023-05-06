@@ -2,7 +2,7 @@ version: "3"
 
 services:
   namenode:
-    image: hadoop-namenode
+    image: m1c4lv/hadoop-namenode:debian11
     container_name: namenode
     restart: always
     volumes:
@@ -10,7 +10,7 @@ services:
     ports:
       - "9870:9870"
   datanode:
-    image: hadoop-datanode
+    image: m1c4lv/hadoop-datanode:debian11
     container_name: datanode
     restart: always
     depends_on:
@@ -18,7 +18,7 @@ services:
     volumes:
       - datanode:/opt/volume/datanode
   resourcemanager:
-    image: hadoop-resourcemanager
+    image: m1c4lv/hadoop-resourcemanager:debian11
     container_name: resourcemanager
     restart: always
     depends_on:
@@ -26,7 +26,7 @@ services:
     ports:
       - "8088:8088"
   nodemanager:
-    image: hadoop-nodemanager
+    image: m1c4lv/hadoop-nodemanager:debian11
     container_name: nodemanager
     restart: always
     depends_on:
@@ -34,7 +34,7 @@ services:
     ports:
       - "8042:8042"
   historyserver:
-    image: hadoop-historyserver
+    image: m1c4lv/hadoop-historyserver:debian11
     container_name: historyserver
     restart: always
     volumes:
@@ -42,7 +42,7 @@ services:
     depends_on:
       - namenode
   hive-server:
-    image: hadoop-hive
+    image: m1c4lv/hadoop-hive:debian11
     container_name: hiveserver
     command: /bin/sh -c '/usr/local/bin/script_schematool.sh && /usr/local/bin/script_hive.sh'
     restart: always
@@ -62,7 +62,7 @@ services:
     ports:
       - "33306:3306"
   jupyter:
-    image: hadoop-jupyter
+    image: m1c4lv/hadoop-jupyter:debian11
     container_name: jupyter
     command: /opt/anaconda/bin/jupyter notebook --ip='*' --port=8888 --notebook-dir=/opt/notebooks --no-browser --allow-root
     restart: always
