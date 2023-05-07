@@ -4,7 +4,7 @@ Este cluster de Hadoop está configurado con un modo de funcionamiento pseudo-di
 
 ## Configuración para Docker-compose:
 
-Primero construimos las imagenes de los contenedores:
+Podemos construir las imagenes de los contenedores o descargalarlas directamente de DockerHub: https://hub.docker.com/repositories/m1c4lv
 
 ```bash
 docker build --network host -t hadoop-base Hadoop-base
@@ -20,9 +20,11 @@ docker build --network host -t hadoop-resourcemanager Hadoop-resourcemanager
 docker build --network host -t hadoop-historyserver Hadoop-historyserver
 
 docker build --network host -t hadoop-hive Hive
+
+docker build --network host -t hadoop-jupyter Hadoop-Jupyter
 ```
 
-Por último, montamos el cluster de Hadoop-Hive con docker-compose:
+Para montar el cluster de Hadoop-Hive con docker-compose:
 
 ```bash
 docker-compose up -d
@@ -74,7 +76,8 @@ minikube addons enable ingress
 ```
 
 Primero construimos los pods, aquellos servicios que necesitan persistencia de datos, se lanzan como statefulsets, los que no necesitan persistencia
-se lanzan como deployments. Cada servicio tiene su service que le conecta con los demás servicios de Hadoop.
+se lanzan como deployments. 
+Cada servicio tiene su service que le conecta con los demás servicios de Hadoop. Y los pods que necesitan exponer puertos al exterior tienen un ingress cada uno.
 
 En la carpeta kubernetes-v1 ejecutamos el siguiente comando:
 
@@ -111,8 +114,6 @@ Una vez conocido el id del pod hive-server se sustituye en el primer comando, en
 ```bash
 kubectl exec --stdin --tty hive-server-id -- /bin/bash
 
-/opt/hive/bin/schematool -initSchema -dbType mysql
-
 /opt/hive/bin/hive
 
 show tables;
@@ -132,20 +133,15 @@ minikube tunnel
 
 Ahora en el navegador con la direccion: http://namenode.127.0.0.1.nip.io/ podemos acceder a la información del namenode.
 Como podemos observar están todos los servicios conectados en la versión de Hadoop 3.3.5. 
-Si accedemos a la pestaña:Datanodes vemos que tiene un sercicio de Datanode, o lo que es lo mismo, tenemos 1 nodo worker. Vamos a escalar estos servicios, para ello escribimos en otra terminal:
-
-```bash
-kubectl scale sts hadoop-datanode --replicas=3
-```
-
-Si actualizamos el navegador podemos observar como ahora tenemos tres servicios datanode, cada uno con su almacenamiento y su dirección ip.
+Si accedemos a la pestaña:Datanodes vemos que tiene tres sercicios de Datanode, o lo que es lo mismo, tenemos 3 nodo worker.
 
 En el navegador podemos acceder al Yarn (servicio ResourceManager) con la dirección: http://resourcemanager.127.0.0.1.nip.io/
 
-También podemos acceder a JupyterNotebooks con la dirección: http://anaconda.127.0.0.1.nip.io/ nos pedirá el token, el cual lo podemos obtener accediendo a los logs del pod anaconda.
+Podemos acceder a hive-server donde se nos muestra todo lo que está ocurriendo en hiveserver2 cuando conectamoe con él mediante beeline: http://hiveserver.127.0.0.1.nip.io/
+
+También podemos acceder a JupyterNotebooks con la dirección: http://jupyter.127.0.0.1.nip.io/ nos pedirá el token, el cual lo podemos obtener accediendo a los logs del pod hadoop-jupyter.
 
 ```bash
-kubectl logs anaconda-idpod
+kubectl logs hadoop-jupyter-0
 ```
 
-Siendo id pod el id que le haya dado kubernetes al crearlo.
