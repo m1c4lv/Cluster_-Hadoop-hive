@@ -1,4 +1,4 @@
-version: "3"
+version: "3" 
 
 services:
   namenode:
@@ -17,6 +17,22 @@ services:
       - namenode
     volumes:
       - datanode:/opt/volume/datanode
+  datanode1:
+    image: m1c4lv/hadoop-datanode:debian11
+    container_name: datanode1
+    restart: always
+    depends_on:
+      - namenode
+    volumes:
+      - datanode1:/opt/volume/datanode
+  datanode2:
+    image: m1c4lv/hadoop-datanode:debian11
+    container_name: datanode2
+    restart: always
+    depends_on:
+      - namenode
+    volumes:
+      - datanode2:/opt/volume/datanode
   resourcemanager:
     image: m1c4lv/hadoop-resourcemanager:debian11
     container_name: resourcemanager
@@ -50,7 +66,6 @@ services:
       - namenode
     ports:
       - "10000:10000"
-      - "10002:10002"
   mysql-server:
     image: mysql:5.7-debian
     command:
@@ -75,6 +90,8 @@ services:
 volumes:
   namenode:
   datanode:
+  datanode1:
+  datanode2:
   historyserver:
   mysql-server:
   jupyter:
