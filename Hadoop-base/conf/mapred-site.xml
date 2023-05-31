@@ -28,4 +28,6 @@
 <property><name>mapreduce.framework.name</name><value>yarn</value></property>
 <property><name>mapreduce.map.env</name><value>HADOOP_MAPRED_HOME=/opt/hadoop-3.3.5/</value></property>
 <property><name>yarn.nodemanager.bind-host</name><value>0.0.0.0</value></property>
+<property><name>mapreduce.application.classpath</name><value>/opt/hadoop-3.3.5/share/hadoop/mapreduce/*:/opt/hadoop-3.3.5/share/hadoop/mapreduce/lib/*:/opt/hadoop-3.3.5/share/hadoop/tools/lib/*</value></property>
+
 </configuration>
