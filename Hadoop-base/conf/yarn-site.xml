@@ -15,7 +15,6 @@
 <configuration>
 
 <!-- Site specific YARN configuration properties -->
-
 <property><name>yarn.timeline-service.enabled</name><value>true</value></property>
 <property><name>yarn.scheduler.capacity.root.default.maximum-allocation-vcores</name><value>4</value></property>
 <property><name>yarn.resourcemanager.system-metrics-publisher.enabled</name><value>true</value></property>
