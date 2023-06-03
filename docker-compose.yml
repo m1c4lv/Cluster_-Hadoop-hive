@@ -66,6 +66,7 @@ services:
       - namenode
     ports:
       - "10000:10000"
+      - "10002:10002"
   mysql-server:
     image: mysql:5.7-debian
     command:
