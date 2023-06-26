@@ -1,3 +1,19 @@
+# Datos del proyecto
+
+UNIVERSIDAD NACIONAL DE EDUCACIÓN A DISTANCIA
+
+ESCUELA TÉCNICA SUPERIOR DE INGENIERÍA INFORMÁTICA
+
+Proyecto de fin de Grado en Ingeniería Informatica:
+
+**Virtualización ligera y cloud computing para el despliegue de infraestructuras Big Data para la docencia online de Ingeniería**
+
+Miguel Carrillo Álvarez
+
+Dirigido por: Agustín Carlos Caminero Herráez
+
+Curso 2022/2023, convocatoria Junio
+
 # Cluster_-Hadoop-hive
 
 Este cluster de Hadoop está configurado con un modo de funcionamiento pseudo-distribuido, es decir, en cada uno de los componenetes del cluster se ejecuta su propio contenedor Docker.
